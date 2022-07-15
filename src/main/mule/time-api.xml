@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="97331f6a-2b6e-42d4-a3fb-a912ba623e66" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="time-apiFlow" doc:id="782ad184-1042-4843-8a83-e1b54228766f" >
+		<http:listener doc:name="Listener" doc:id="5693717d-ab05-44de-9c12-a825afd8f145" config-ref="HTTP_Listener_config" path="/api/timenow"/>
+		<logger level="INFO" doc:name="ENTRY Logger" doc:id="d09f58d4-bf79-4931-9970-c66c86f17b51" message="ENTRY"/>
+		<ee:transform doc:name="Transform Message" doc:id="0f26584f-fdfb-4a39-b322-c4f9c28dc135" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+import * from dw::core::Strings
+output application/json
+---
+{
+	timeStamp: now() as String {format: "MM-dd-yyyy HH:mm:ss"},
+	corrId: correlationId
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="EXIT Logger" doc:id="6d8baf79-5f34-4c38-b4e4-5dc1200ff8d8" message="EXIT"/>
+	</flow>
+</mule>
