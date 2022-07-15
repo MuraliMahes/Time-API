@@ -23,6 +23,6 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="EXIT Logger" doc:id="6d8baf79-5f34-4c38-b4e4-5dc1200ff8d8" message="EXIT"/>
+		<logger level="INFO" doc:name="EXIT Logger" doc:id="6d8baf79-5f34-4c38-b4e4-5dc1200ff8d8" message="EXIT. Thanks for Visiting our Site"/>
 	</flow>
 </mule>
